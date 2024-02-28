@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<br>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bar Chart</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+    <div class="text-center" id="container" style="width: 800px; height: 600px; margin: 0 auto;"></div>
+
+    <script type="text/javascript">
+        // Define the chart options
+        var chartOptions = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Earthquake Distribution on the basis of specified magnitude range - {{ min_mag }} to {{ max_mag }}'
+            },
+            xAxis: {
+                title: {
+                    enabled: true,
+                    text: 'Magnitude'
+                },
+                categories: {{ data|tojson }}
+            },
+            yAxis: {
+                title: {
+                    enabled: true,
+                    text: 'Count'
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                    return 'Magnitude: <b>' + this.x + '</b><br>Count: <b>' + this.y + '</b>';
+                }
+            },
+            series: [{
+                name: 'Count',
+                color: 'rgba(223, 83, 83, .5)',
+                data: {{ count|tojson }}
+            }]
+        };
+
+        // Create the chart
+        Highcharts.chart('container', chartOptions);
+    </script>
+</body>
+</html>
+
+{% endblock %}

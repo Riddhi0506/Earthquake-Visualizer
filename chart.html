@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<br>
+<body>
+    <form action="/generate_chart1" method="post">
+        <label for="inputN">Enter a number N:</label>
+        <input type="number" id="inputN" name="n" min="1" max="10" required>
+        <br><br>
+        <button type="submit">Generate Pie Chart</button>
+    </form>
+</body>
+
+{%if n is defined%}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pie Chart</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #chartContainer {
+            width: 100%;
+            height: 90vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="chartContainer"></div>
+
+    <script type="text/javascript">
+        var chartOptions = {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Pie Chart Example'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f}%'
+                    }
+                }
+            },
+            series: [{
+                name: 'Data',
+                colorByPoint: true,
+                data: {{ chart_data | safe }}
+            }]
+        };
+
+        // Create the chart
+        Highcharts.chart('chartContainer', chartOptions);
+    </script>
+</body>
+
+{%endif%}
+{% endblock %}
+```

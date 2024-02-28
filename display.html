@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 style="text-align: center">Database</h1>
+<table border="2" class="table table-light table-striped" style="display: inline; border: 0cm; padding:20px;text-align: center;">
+    {% for i in data %}
+    <tr>
+        {% for x in i %}
+        <td>
+            {{x}}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+</html>
+
+{% endblock content %}

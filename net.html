@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<br>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pie Chart Example</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+    <div class="text-center" id="container" style="width: 800px; height: 600px; margin: 0 auto; justify-content: space-between;"></div>
+    <script type="text/javascript">
+        // Define the chart options
+        var chartOptions = {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Earthquake Data Distribution on the basis of Place of Occurence'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} % <br> Total {point.y}'
+                    }
+                }
+            },
+            series: [{
+                name: 'Place Category',
+                colorByPoint: true,
+                data: [
+                    {% for i in range(net|length) %}
+                        {
+                            name: '{{ net[i] }}',
+                            y: {{ counts[i] }}
+                        }{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                ]
+            }]
+        };
+
+        // Create the chart
+        Highcharts.chart('container', chartOptions);
+    </script>
+</body>
+</html>
+
+{% endblock %}

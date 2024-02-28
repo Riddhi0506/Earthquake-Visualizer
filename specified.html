@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<br>
+<form action="/specifiedresult" method="POST">
+    <div class="mb-3">
+        <label for="random" class="form-label">Earthquake database visualization</label>
+        <select class="form-control border-2 input-sm" id="restriction" name="restriction" onchange="toggleDateInputs()" placeholder="Select the Category" required>
+            <option value="location">Location</option>
+            <option value="time_range">Time Range</option>
+            <option value="mag_range">Magnitude Range</option>
+        </select>
+    </div>
+    <br>
+    <div class="mb-3" id="location_inputs" name="location_inputs" style="display:none;">
+        <select type="text" class="form-control" name="location_inputs" required>
+            <option value="ak">ak</option>
+            <option value="ci">ci</option>
+            <option value="nc">nc</option>
+            <option value="nn">nn</option>
+            <option value="us">us</option>
+            <option value="mb">mb</option>
+            <option value="av">av</option>
+            <option value="ok">ok</option>
+            <option value="tx">tx</option>
+            <option value="pr">pr</option>
+            <option value="hv">hv</option>
+            <option value="uu">uu</option>
+            <option value="uw">uw</option>
+            <option value="nm">nm</option>
+            <option value="se">se</option>
+        </select>
+    </div>
+    <div class="mb-3" id="time_inputs" name="time_inputs" style="display:none;">
+        <label for="start_time">Start Date:</label>
+        <input type="date" id="start_time" name="start_time"><br><br>
+
+        <label for="end_time">End Date:</label>
+        <input type="date" id="end_time" name="end_time"><br><br>
+    </div>
+    <div class="mb-3" id="mag_inputs" name="mag_inputs" style="display:none;">
+        <label for="min_mag">Minimun Magnitude:</label>
+        <input type="mag" id="min_mag" name="min_mag"><br><br>
+
+        <label for="max_mag">Maxmimum Magnitude:</label>
+        <input type="mag" id="max_mag" name="max_mag"><br><br>
+    </div>
+    <br>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br>
+<script>
+    function toggleDateInputs() {
+        var restriction = document.getElementById("restriction").value;
+        if (restriction == "location") {
+            document.getElementById("location_inputs").style.display = "block";
+            document.getElementById("time_inputs").style.display = "none";
+            document.getElementById("mag_inputs").style.display = "none";
+        } else if (restriction == "time_range") {
+            document.getElementById("location_inputs").style.display = "none";
+            document.getElementById("time_inputs").style.display = "block";
+            document.getElementById("mag_inputs").style.display = "none";
+        } else if (restriction == "mag_range") {
+            document.getElementById("location_inputs").style.display = "none";
+            document.getElementById("time_inputs").style.display = "none";
+            document.getElementById("mag_inputs").style.display = "block";
+        }
+    }
+</script>
+
+<!-- {% if time is defined %}
+<h3>Time required to execute {{n}} times is {{time}}</h3>
+<table border="2" class="table table-light table-striped" style="display: inline; border: 0cm; padding:20px;text-align: center;">
+    {% for l in data %}
+    {% for i in l %}
+    <tr>
+        {% for x in i %}
+        <td>
+            {{x}}
+        </td>
+        {% endfor %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{%endif%} -->
+{%endblock%}

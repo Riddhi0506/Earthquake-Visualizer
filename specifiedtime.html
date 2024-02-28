@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<br>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bar Chart</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+ <div class="text-center" id="container" style="width: 800px; height: 600px; margin: 0 auto; justify-content: space-between;"></div>
+
+    <script type="text/javascript">
+        // Define the chart options
+        var chartOptions = {
+            chart: {
+                type: 'area',
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Earthquake Distribution on the basis of specified time - {{ start_time }} to {{ end_time }}' 
+            },
+            xAxis: {
+                title: {
+                    enabled: true,
+                    text: 'Time'
+                },
+                categories: [
+                    {% for time in data %}
+                        '{{ time }}'{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                ]
+            },
+            yAxis: {
+                title: {
+                    enabled: true,
+                    text: 'Count'
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                    return 'Time: <b>' + this.x + '</b><br>Count: <b>' + this.y + '</b>';
+                }
+            },
+            series: [{
+                name: 'Earthquake',
+                // color: 'rgba(223, 83, 83, .5)',
+                data: [
+                    {% for count in count %}
+                        {{ count }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                ]
+            }]
+        };
+
+        // Create the chart
+        Highcharts.chart('container', chartOptions);
+    </script>
+</body>
+</html>
+
+{% endblock %}
